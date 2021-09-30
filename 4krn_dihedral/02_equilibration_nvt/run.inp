@@ -1,0 +1,61 @@
+[INPUT]
+topfile = ../toppar/top_all36_prot.rtf, ../toppar/top_all36_na.rtf
+parfile = ../toppar/par_all36m_prot.prm, ../toppar/par_all36_na.prm
+strfile = ../toppar/toppar_water_ions.str
+
+psffile = ../step3_pbcsetup.psf                 # protein structure file
+pdbfile = ../step3_pbcsetup.pdb                 # PDB file
+reffile = ../step3_pbcsetup.pdb
+rstfile = ../01_minimization/run.rst              # restart file
+ 
+[OUTPUT]
+rstfile = run.rst
+dcdfile = run.dcd
+
+[ENERGY]
+forcefield      = CHARMM        # [CHARMM]
+electrostatic   = PME           # [CUTOFF,PME]
+switchdist      = 10.0          # switch distance
+cutoffdist      = 12.0          # cutoff distance
+pairlistdist    = 13.5          # pair-list distance
+vdw_force_switch = YES
+pme_nspline     = 4
+pme_max_spacing  = 1.0       # max grid spacing
+
+[DYNAMICS]
+integrator       = VVER      # [LEAP,VVER,VRES]
+nsteps           = 125000        # number of MD steps
+timestep         = 0.0010    # timestep (ps)
+nbupdate_period  = 10        # pairlist update period
+elec_long_period = 1         # period of reciprocal space calculation
+thermostat_period = 10       # period of thermostat update
+barostat_period  = 10        # period of barostat update
+eneout_period    = 10        # energy output period
+crdout_period    = 100       # coordinates output period
+rstout_period    = 5000      # restart output period
+ 
+[CONSTRAINTS]
+rigid_bond      = YES           # constraints all bonds involving hydrogen
+fast_water      = YES         
+
+[ENSEMBLE]
+ensemble        = NVT           # [NVE,NVT,NPT]
+tpcontrol       = BUSSI      # thermostat and barostat
+temperature     = 300
+
+[BOUNDARY]
+type            = PBC           # [PBC]
+
+[SELECTION]
+group1          = (sid:PROA) and backbone
+group2          = (sid:PROA) and not backbone and not hydrogen
+
+[RESTRAINTS]
+nfunctions      = 2
+function1       = POSI
+constant1       = 1
+select_index1   = 1
+function2       = POSI
+constant2       = 0.1
+select_index2   = 2
+
