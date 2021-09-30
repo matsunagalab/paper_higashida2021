@@ -1,0 +1,32 @@
+[INPUT]
+psffile = ../../../step3_pbcsetup.psf                 # protein structure file
+reffile = ../../../step3_pbcsetup.pdb
+logfile = ../run_{}.log
+dcdfile = ../run_{}.dcd
+remfile = ../run_{}.rem
+
+[OUTPUT]
+trjfile = run_param{}.dcd
+logfile = run_param{}.log
+
+[SELECTION]
+group1          = ai:1-1839   # only tri-alanine
+
+[FITTING]
+fitting_method  = NO    # center-of-mass translation + rotation fitting
+
+[OPTION]
+check_only      = NO
+convert_type    = PARAMETER
+convert_ids     = 1 2 3 4 5 6 7 8       # only lowest T replicas
+num_replicas    = 8
+nsteps          = 10000000
+exchange_period = 1000
+crdout_period   = 100       # trjectory output frequency in REMD
+eneout_period   = 100       # trjectory output frequency in REMD
+trjout_format   = DCD
+trjout_type     = COOR+BOX
+trjout_atom     = 1         # output only tri-alanine moiety
+pbc_correct     = NO        # nothing will happen when water mols excluded
+
+
