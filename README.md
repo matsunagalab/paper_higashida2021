@@ -4,8 +4,6 @@ Files used in [Higashida and Matsunaga 2021](https://doi.org/10.3390/life1112142
 
 ## Descriptions on files
 
-The files are organized as follows. Note that all scripts assume Angstrom as the unit. 
-
 - [4idl_all/](https://github.com/matsunagalab/paper_higashida2021/tree/main/4idl_all) gREST simulation input files for PDB-ID 4IDL using the CDR regions and all potential energy terms as the solute
 
 - [4idl_dihedral/](https://github.com/matsunagalab/paper_higashida2021/tree/main/4idl_dihedral) gREST simulation input files for PDB-ID 4IDL using the CDR regions and dihedral terms as the solute
