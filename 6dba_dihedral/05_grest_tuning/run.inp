@@ -1,0 +1,82 @@
+[INPUT]
+topfile = ../toppar/top_all36_prot.rtf, ../toppar/top_all36_na.rtf
+parfile = ../toppar/par_all36m_prot.prm, ../toppar/par_all36_na.prm
+strfile = ../toppar/toppar_water_ions.str
+
+psffile = ../step3_pbcsetup.psf                 # protein structure file
+pdbfile = ../step3_pbcsetup.pdb                 # PDB file
+reffile = ../step3_pbcsetup.pdb
+rstfile = ../04_grest_equilibration/run_{}.rst
+ 
+[OUTPUT]
+rstfile = run_{}.rst
+dcdfile = run_{}.dcd
+remfile = run_{}.rem       # replica exchange ID file
+logfile = run_{}.log       # log file of each replica
+
+[ENERGY]
+forcefield      = CHARMM        # [CHARMM]
+electrostatic   = PME           # [CUTOFF,PME]
+switchdist      = 10.0          # switch distance
+cutoffdist      = 12.0          # cutoff distance
+pairlistdist    = 13.5          # pair-list distance
+pme_nspline     = 4
+water_model     = NONE
+vdw_force_switch = YES
+
+[DYNAMICS]
+integrator       = VRES      # [LEAP,VVER,VRES]
+nsteps           = 2500000    # number of MD steps
+timestep         = 0.0025    # timestep (ps)
+nbupdate_period  = 10        # pairlist update period
+elec_long_period = 2         # period of reciprocal space calculation
+thermostat_period = 10       # period of thermostat update
+barostat_period  = 10        # period of barostat update
+eneout_period    = 10        # energy output period
+crdout_period    = 100       # coordinates output period
+rstout_period    = 1000      # restart output period
+ 
+[CONSTRAINTS]
+rigid_bond      = YES           # constraints all bonds involving hydrogen
+fast_water      = YES         
+
+[ENSEMBLE]
+ensemble        = NVT           # [NVE,NVT,NPT]
+tpcontrol       = BUSSI      # thermostat and barostat
+temperature     = 300.00
+#gamma_t         = 1.0
+#pressure        = 1.0           # atm
+#gamma_p         = 0.05
+#isotropy        = ISO
+
+[BOUNDARY]
+type            = PBC           # [PBC]
+
+[REMD]
+dimension        = 1           # number of parameter types
+exchange_period  = 1000        # NO exchange for equilibration
+iseed            = 314160
+
+type1           = REST          # Replica Exchange with Solute Tempering
+nreplica1       = 8             # number of replicas
+parameters1     = 300.000  315.800  332.200  348.100  366.200  384.600  405.900  428.200
+select_index1   = 1             # solute region selection
+param_type1     = DIHEDRAL # function types
+                               # valid keywords are:
+                               # ALL (default), BOND, ANGLE,
+                               # DIHEDRAL, IMPROPER, CMAP,
+                               # CHARGE LJ...
+                               # See manual for further details.
+param_tuning1    = YES
+tgt_exc_prob1    = 0.3
+mgn_exc_prob1    = 0.05
+trial_freq1      = 48
+eq_cycle1        = 2
+param_grid1      = 0.1
+max_param_shift1 = 20.0
+fix_terminal1    = BOTTOM
+
+
+[SELECTION]
+group1        = segid:PROA and (rno:26-32 or rno:99-112)
+
