@@ -1,0 +1,1 @@
+{"systype":null,"dimensions":["69","69","69","90.0","90.0","90.0"],"input":["namd","gromacs","amber","openmm","genesis"],"forcefield":{"type":"c36m","files":["default"],"custom":[]},"hmr":false}
